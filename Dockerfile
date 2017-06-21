@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -7,6 +7,9 @@ RUN apt-get update && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && \
+  apt-get install -y gnupg2
+
 # ffmpeg is hosted at deb-multimedia.org
 RUN curl http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2016.8.1_all.deb \
   -o /tmp/deb-multimedia-keyring.deb && \  
@@ -14,6 +17,8 @@ RUN curl http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-mu
   rm /tmp/deb-multimedia-keyring.deb && \
   echo "deb http://www.deb-multimedia.org stretch main non-free" >> /etc/apt/sources.list
   
+RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
+
 RUN apt-get update && \
   apt-get install -y \
     openjdk-8-jre \
@@ -21,7 +26,7 @@ RUN apt-get update && \
     libgconf-2-4 \
     libexif12 \
     chromium \
-    npm \
+    nodejs \
     supervisor \
     netcat-traditional \
     curl \
@@ -29,19 +34,17 @@ RUN apt-get update && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-# Upgrade NPM to latest (address issue #3)
-RUN npm install -g npm
+# Install Angular CLI
+RUN npm install -g @angular/cli
 
 # Install Protractor
-RUN npm install -g protractor@4.0.4 
+RUN npm install -g protractor 
 
 # Install Selenium and Chrome driver
 RUN webdriver-manager update
 
 # Add a non-privileged user for running Protrator
-RUN adduser --home /project --uid 1100 \
+RUN adduser --home /project --uid 1100 --shell /bin/bash \
   --disabled-login --disabled-password --gecos node node
 
 # Add main configuration file
