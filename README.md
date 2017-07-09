@@ -23,7 +23,7 @@ docker run --rm -v <test project location>:/project <docker id>
 ```
 The container will terminate automatically after the tests are completed.
 
-Your nightwatch.json must specify the no-sandbox option for Chrome to cleanly run inside Docker. A minimal example config would be:
+Your nightwatch.json must specify the no-sandbox option for Chrome to cleanly run inside Docker :
 
 ```
 exports.config = {
