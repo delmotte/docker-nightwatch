@@ -20,9 +20,9 @@ if nc -z localhost 4444; then
   # run protractor tests
   mkdir -p target
   if [ -n "$BASEURL" ]; then
-    protractor --baseUrl=$BASEURL
+    nightwatch --baseUrl=$BASEURL
   else
-    protractor
+    nightwatch
   fi
 
 

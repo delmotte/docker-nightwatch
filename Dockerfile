@@ -17,7 +17,7 @@ RUN curl http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-mu
   rm /tmp/deb-multimedia-keyring.deb && \
   echo "deb http://www.deb-multimedia.org stretch main non-free" >> /etc/apt/sources.list
   
-RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
 RUN apt-get update && \
   apt-get install -y \
@@ -34,11 +34,8 @@ RUN apt-get update && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-# Install Angular CLI
-RUN npm install -g @angular/cli
-
 # Install Protractor
-RUN npm install -g protractor 
+RUN npm install -g nightwatch webdriver-manager
 
 # Install Selenium and Chrome driver
 RUN webdriver-manager update
@@ -56,7 +53,7 @@ ADD supervisord/*.conf /etc/supervisor/conf.d/
 # By default, tests in /data directory will be executed once and then the container
 # will quit. When MANUAL envorinment variable is set when starting the container,
 # tests will NOT be executed and Xvfb and Selenium will keep running.
-ADD bin/run-protractor /usr/local/bin/run-protractor
+ADD bin/run-nightwatch /usr/local/bin/run-nightwatch
 
 # Container's entry point, executing supervisord in the foreground
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisor.conf"]
