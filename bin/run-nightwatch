@@ -17,7 +17,7 @@ if nc -z localhost 4444; then
   	  npm install
   fi
 
-  # run protractor tests
+  # run nightwatch tests
   mkdir -p target
   if [ -n "$BASEURL" ]; then
     nightwatch --baseUrl=$BASEURL

@@ -38,7 +38,7 @@ RUN apt-get update && \
 RUN npm install -g nightwatch webdriver-manager
 
 # Install Selenium and Chrome driver
-RUN webdriver-manager update
+RUN webdriver-manager update --versions.standalone=2.53.0
 
 # Add a non-privileged user for running Protrator
 RUN adduser --home /project --uid 1100 --shell /bin/bash \
